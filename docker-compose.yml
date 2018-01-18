@@ -1,0 +1,45 @@
+# -*- yaml -*-
+
+version: '3'
+services:
+
+  btcd:
+    image: lcallero/btcd-docker:0.12.0-beta
+    volumes:
+    - $HOME/tmp/btcd_data/btcd:/root/.btcd
+    - $HOME/tmp/btcd_data/btcctl:/root/.btcctl
+
+  geth:
+    image: ethereum/client-go
+    volumes:
+    - $HOME/tmp/geth_data:/root
+    entrypoint:
+    - geth
+    - --fast
+    - --cache=512
+    - --rpcaddr
+    - 0.0.0.0
+
+  skycoin:
+    image: skycoin/skycoin:develop
+    volumes:
+    - $HOME/tmp/skycoin_data/skycoin-data:/data
+    - $HOME/tmp/skycoin_data/skycoin-wallet:/wallet
+
+  teller:
+    build: .
+    depends_on:
+      - btcd
+      - geth
+      - skycoin
+    ports:
+      - "4121:4121"
+      - "7071:7071"
+      - "7711:7711"
+    volumes:
+    - $PWD/my_config.toml:/usr/local/teller/config.toml
+    - $PWD/btc_addresses.json:/usr/local/teller/btc_addresses.json
+    - $PWD/eth_addresses.json:/usr/local/teller/eth_addresses.json
+    - $PWD/example.wlt:/usr/local/teller/example.wlt
+    - $HOME/tmp/btcd_data/btcd/rpc.cert:/usr/local/teller/btcd_rpc.cert
+    - $HOME/tmp/teller_data:/data

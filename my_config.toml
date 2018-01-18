@@ -1,0 +1,32 @@
+# -*- toml -*-
+
+logfile = ""
+dbfile = "/data"
+
+btc_addresses = "/usr/local/teller/btc_addresses.json"
+eth_addresses = "/usr/local/teller/eth_addresses.json"
+
+[web]
+http_addr = "0.0.0.0:7071"
+
+[admin_panel]
+host = "0.0.0.0:7711"
+
+[sky_rpc]
+address = "skycoin:6420"
+
+[btc_rpc]
+enabled = true
+server = "btcd:8334"
+user = "scramblecooperativenessregrettably"
+pass = "hospmattockintrospecting"
+cert = "/usr/local/teller/btcd_rpc.cert"
+
+[eth_rpc]
+server = "geth"
+port = "8545"
+
+[sky_exchanger]
+sky_btc_exchange_rate = "500"
+sky_eth_exchange_rate = "100"
+wallet = "/usr/local/teller/example.wlt"
